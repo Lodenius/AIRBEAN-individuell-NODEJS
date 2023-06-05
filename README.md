@@ -2,8 +2,6 @@
 
 ## Instruktioner
 
-## Instruktioner
-
 I den individuella delen av Airbean så ska du skapa ett admin-gränssnitt för att hantera menyn. Det ska gå och lägga till och ta bort
 produkter. Båda API-endpoints:en ska vara skyddad med en API-nyckel.
 
