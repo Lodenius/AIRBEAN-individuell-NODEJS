@@ -1,84 +1,21 @@
-# Airbean by Ruby Rollers
+# Airbean 
 
 ## Instruktioner
 
-I detta grupparbete ska vi skapa ett API för en webbapp där det går att beställa kaffe och få den levererad via drönare (drönare ingår ej i uppgiften).
+I den individuella delen av Airbean så ska du skapa ett admin-gränssnitt för att hantera menyn. Det ska gå och lägga till och ta bort
+produkter. Båda API-endpoints:en ska vara skyddad med en API-nyckel.
 
-## Arbetsgång
+### Krav på funktionalitet
+* Kunna lägga till en ny produkt i menyn. Man ska enbart kunna skicka med de egenskaper som finns på en produkt (`id`, `title`, `desc`, `price`) i bodyn. Alla egenskaper ska också finnas med.
+* Kunna ta bort en produkt. Det ska enbart gå att ta bort en produkt som finns.
+* Uppnås inte kraven ovan ska ett passande felmeddelande skickas tillbaka.
+* Båda endpoints:en ska vara skyddade med en API-nyckel som kontrolleras via en middleware.
+* Det ska finnas ett antal fördefinerade API-nyckel att hämta från.
+* Menyn är sparad i en NeDB-databas.
 
-1. Läs igenom alla user stories och försök bestämma vad för api endpoints vi behöver.
-2. Diskutera hur vår datamodell ska se ut och vad för data ska vi skicka tillbaka. 
-3. Dela upp arbetet.
+**För Godkänt:**
+* Uppnår alla krav på funktionalitet.
+* Använder sig av en middleware för att kontollera API-nyckel
 
-### Kriterier
-
-* Uppfyller alla krav av funktionalitet.
-* Använder sig av Express och NeDB som databas (en annan databas exempelvis MongoDB är okej ifall alla i gruppen är överens om detta).
-* All input som skickas i url eller i body ska valideras i en middleware och ifall det är fel data ska ett felmeddelande skickas tillbaka.
-* Det ska enbart gå att lägga till produkter som finns i menyn, ifall någon annan produkt skickas med så ska ett felmeddelande skickas tillbaka. Även pris ska kontrolleras, allt detta ska göras i en middleware.
-* När ett konto skapas ska detta kopplas till ett slumpat användarid (här används fördelaktigt ett bibliotek) där användarid:et sedan kan användas för att hämta orderhistorik, användarnamn ska alltså ej skickas med i url för att hämta orderhistorik.
-* Kunna se pågående beställningar och tidigare beställningar (man kollar när beställningen lades (klockslag) gentemot vad klockan är nu. Här är det godkänt att använda något bibliotek för datum och tidshantering (ex. `moment.js` eller `date-fns`).
-
-
-## Contributors
-- cecilialjungquist
-- samCcode
-- Lodenius
-- LisaRydCarlsson
-
-# Methods
-
-### Hämta menyn
-` GET /api/beans `
-
-### Lägg order
-` POST /api/beans/order `
-
-Exempel på request body:
-`{
-	"userID": "34T10vzNa9SYOFW9",
-	"order": [
-		{
-			"id": "coffee-m2h37k2mnh"
-		},
-		{
-			"id": "coffee-220dodpzmg"
-		}
-	]
-}`
-
-### Skapa konto
-` POST /api/user/signup `
-
-Exempel på request body:
-`{
-	"username": "username",
-	"password": "password1234"
-}`
-
-### Logga in
-` GET /api/user/login `
-
-Exempel på request body:
-`{
-	"username": "username",
-	"password": "password1234"
-}`
-
-### Hämta orderhistorik
-` GET /api/user/history `
-
-Exempel på request body:
-`{
-	"userID": "11223344"
-}`
-
-### Hämta orderstatus
-` GET /api/beans/order/status `
-
-Exempel på request body:
-`{
-	"userID": "11223344",
-	"orderNumber": "55667788"
-}`
-
+**För Väl Godkänt:**
+* Ska endpoints och middleware vara i två olika JS-filer som importeras in i din app.js
