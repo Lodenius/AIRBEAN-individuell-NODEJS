@@ -22,3 +22,59 @@ produkter.
 **För Väl Godkänt:**
 * Använder sig av JSON web token för att returnera en token som innehåller användarens roll och som används för att sedan kontrollera access till routes enligt ovan.
 * Använder sig av Bcrypt.js för att kryptera lösenord vid skapandet av konto. Här är det fördelaktigt att lägga till funktionalitet för att skapa konto.
+
+## Methods
+
+### Hämta menyn
+` GET /api/beans `
+
+### Lägg order
+` POST /api/beans/order `
+
+Exempel på request body:
+`{
+	"userID": "34T10vzNa9SYOFW9",
+	"order": [
+		{
+			"id": "coffee-m2h37k2mnh"
+		},
+		{
+			"id": "coffee-220dodpzmg"
+		}
+	]
+}`
+
+### Skapa konto
+` POST /api/user/signup `
+
+Exempel på request body:
+`{
+	"username": "username",
+	"password": "password1234"
+}`
+
+### Logga in
+` GET /api/user/login `
+
+Exempel på request body:
+`{
+	"username": "username",
+	"password": "password1234"
+}`
+
+### Hämta orderhistorik
+` GET /api/user/history `
+
+Exempel på request body:
+`{
+	"userID": "11223344"
+}`
+
+### Hämta orderstatus
+` GET /api/beans/order/status `
+
+Exempel på request body:
+`{
+	"userID": "11223344",
+	"orderNumber": "55667788"
+}`
