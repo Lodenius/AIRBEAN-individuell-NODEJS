@@ -28,6 +28,101 @@ produkter.
 ### Hämta menyn
 ` GET /api/beans `
 
+### Skapa konto
+` POST /api/user/signup `
+
+Exempel på request body:
+`{
+	"username": "username",
+	"password": "password1234"
+}`
+Exempel på request body för att lägga till admin:
+`{
+	"username": "username",
+	"password": "password1234",
+	"role": "admin"
+}`
+
+### Logga in
+` GET /api/user/login `
+
+Exempel på request body:
+`{
+	"username": "username",
+	"password": "password1234"
+}`
+
+## För admins
+
+### Lägg till produkt 
+
+` POST /api/beans/addproduct `
+
+Exempel på request body:
+`{
+	"userID": "34T10vzNa9SYOFW9",
+	"product": [
+	         {
+		    "id": "test-vkzh17ct2r",
+		    "title": "Test",
+		    "desc": "En fastlagsbulle i sin rätta form.",
+		    "price": 50
+	          }
+	  ]
+}`
+
+### Ändra produkt 
+
+` POST /api/beans/modifyproduct `
+
+Exempel på request body:
+`{
+	"userID": "34T10vzNa9SYOFW9",
+	"product": [
+	         {
+		    "id": "cookie-vkzh17ct2r",
+		    "title": "New title",
+		    "desc": "New description",
+		    "price": 50
+	          }
+	  ]
+}`
+
+### Ta bort produkt 
+
+` DELETE /api/beans/removeproduct `
+
+Exempel på request body:
+`{
+	"userID": "34T10vzNa9SYOFW9",
+	"product": [
+	         {
+		    "id": "cookie-vkzh17ct2r",
+	          }
+	  ]
+}`
+
+
+### Lägg till kampanj
+
+` POST /api/beans/addcampaign `
+
+Exempel på request body:
+`{
+	"userID": "34T10vzNa9SYOFW9",
+	"campaign": [
+	         {
+		    "id": "cookie-vkzh17ct2r",
+		    "title": "New title",
+		    "desc": "New description",
+		    "price": 50
+	          }
+	  ]
+}`
+
+
+### För kunder
+
 ### Lägg order
 ` POST /api/beans/order `
 
@@ -42,24 +137,6 @@ Exempel på request body:
 			"id": "coffee-220dodpzmg"
 		}
 	]
-}`
-
-### Skapa konto
-` POST /api/user/signup `
-
-Exempel på request body:
-`{
-	"username": "username",
-	"password": "password1234"
-}`
-
-### Logga in
-` GET /api/user/login `
-
-Exempel på request body:
-`{
-	"username": "username",
-	"password": "password1234"
 }`
 
 ### Hämta orderhistorik
