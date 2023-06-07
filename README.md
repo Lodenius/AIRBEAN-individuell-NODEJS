@@ -121,7 +121,7 @@ Exempel på request body:
 }`
 
 
-### För kunder
+## För kunder
 
 ### Lägg order
 ` POST /api/beans/order `
