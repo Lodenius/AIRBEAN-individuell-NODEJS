@@ -1,6 +1,6 @@
 # Airbean 
 
-## Instruktioner
+# Instruktioner
 
 I den individuella delen av Airbean så ska du skapa ett admin-gränssnitt för att hantera menyn. Det ska gå och lägga till och ta bort
 produkter.
@@ -23,12 +23,12 @@ produkter.
 * Använder sig av JSON web token för att returnera en token som innehåller användarens roll och som används för att sedan kontrollera access till routes enligt ovan.
 * Använder sig av Bcrypt.js för att kryptera lösenord vid skapandet av konto. Här är det fördelaktigt att lägga till funktionalitet för att skapa konto.
 
-## Methods
+# Methods
 
-**Hämta menyn**
+### Hämta menyn
 ` GET /api/beans `
 
-**Skapa konto**
+### Skapa konto
 ` POST /api/user/signup `
 
 Exempel på request body:
@@ -44,7 +44,7 @@ Exempel på request body för att lägga till admin:
 	"role": "admin"
 }`
 
-**Logga in**
+### Logga in
 ` GET /api/user/login `
 
 Exempel på request body:
@@ -55,7 +55,7 @@ Exempel på request body:
 
 ## För admins
 
-**Lägg till produkt**
+### Lägg till produkt
 
 ` POST /api/admin/add `
 
@@ -72,7 +72,7 @@ Exempel på request body:
 	  ]
 }`
 
-**Ändra produkt**
+### Ändra produkt
 
 ` POST /api/admin/modify `
 
@@ -88,7 +88,7 @@ Exempel på request body:
 	  ]
 }`
 
-**Ta bort produkt**
+### Ta bort produkt
 
 ` DELETE /api/admin/remove `
 
@@ -101,7 +101,7 @@ Exempel på request body:
 }`
 
 
-**Lägg till kampanj**
+### Lägg till kampanj
 
 ` POST /api/admin/newcampaign `
 
@@ -115,7 +115,7 @@ Exempel på request body:
 	"price": 48
 }`
 
-**Se pågående kampanj/-er**
+### Se pågående kampanj/-er
 
 ` GET /api/admin/campaigns `
 
@@ -132,7 +132,7 @@ Exempel på request body:
 
 ## För kunder
 
-**Lägg order**
+### Lägg order
 ` POST /api/beans/order `
 
 Exempel på request body:
@@ -148,7 +148,7 @@ Exempel på request body:
 	]
 }`
 
-**Hämta orderhistorik**
+### Hämta orderhistorik
 ` GET /api/user/history `
 
 Exempel på request body:
@@ -156,7 +156,7 @@ Exempel på request body:
 	"userID": "11223344"
 }`
 
-**Hämta orderstatus**
+### Hämta orderstatus
 ` GET /api/beans/order/status `
 
 Exempel på request body:
