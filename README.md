@@ -56,7 +56,7 @@ Exempel på request body:
 
 ### Lägg till produkt 
 
-` POST /api/beans/addproduct `
+` POST /api/admin/add `
 
 Exempel på request body:
 `{
@@ -73,7 +73,7 @@ Exempel på request body:
 
 ### Ändra produkt 
 
-` POST /api/beans/modifyproduct `
+` POST /api/admin/modify `
 
 Exempel på request body:
 `{
@@ -81,43 +81,51 @@ Exempel på request body:
 	"product": [
 	         {
 		    "id": "cookie-vkzh17ct2r",
-		    "title": "New title",
-		    "desc": "New description",
-		    "price": 50
+		    "whatToModify": "title",
+		    "changeTo": "New description",
 	          }
 	  ]
 }`
 
 ### Ta bort produkt 
 
-` DELETE /api/beans/removeproduct `
+` DELETE /api/admin/remove `
 
 Exempel på request body:
 `{
 	"userID": "34T10vzNa9SYOFW9",
 	"product": [
-	         {
-		    "id": "cookie-vkzh17ct2r",
-	          }
+            { "id": "coffee-220dodpzmg" } 
 	  ]
 }`
 
 
 ### Lägg till kampanj
 
-` POST /api/beans/addcampaign `
+` POST /api/admin/newcampaign `
 
 Exempel på request body:
 `{
-	"userID": "34T10vzNa9SYOFW9",
-	"campaign": [
-	         {
-		    "id": "cookie-vkzh17ct2r",
-		    "title": "New title",
-		    "desc": "New description",
-		    "price": 50
-	          }
-	  ]
+        "userID": "123456789abcd"
+	"products": [
+	    { "id": "coffee-m2h37k2mnh" }, 
+            { "id": "coffee-220dodpzmg" } 
+	 ],
+	"price": 48
+}`
+
+### Se pågående kampanj/-er
+
+` GET /api/admin/campaigns `
+
+Exempel på request body:
+`{
+        "userID": "123456789abcd"
+	"products": [
+	    { "id": "coffee-m2h37k2mnh" }, 
+            { "id": "coffee-220dodpzmg" } 
+	 ],
+	"price": 48
 }`
 
 
