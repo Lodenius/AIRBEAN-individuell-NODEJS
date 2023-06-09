@@ -2,15 +2,15 @@ const express = require('express');
 
 const beansRoutes = require('./routes/beansRoutes.js');
 const userRoutes = require('./routes/userRoutes.js');
-const adminRoutes = require('./routes/adminRoutes.js');
+const adminRoutes = require('./routes/adminRoutes.js')
 
 const app = express();
-const PORT = 1337;
+const PORT = 5555;
 
 app.use(express.json());
 app.use(beansRoutes);
 app.use(userRoutes);
-app.use(adminRoutes);
+app.use(adminRoutes)
 
 
 app.listen(PORT, () => {

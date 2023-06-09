@@ -1,135 +1,116 @@
-// // const router = express.Router();
-// const { addProduct, updateProduct, removeProduct, addCampaign } = require('../admin/admin.js');
+const express = require('express');
+const router = express.Router();
+const { getMenu, addCampaign, getCampaigns, removeProduct } = require('../menu/menu.js');
+const { checkProperty, productValidation, isAdmin } = require('../utils.js');
+const { addProduct } = require('../menu/menu');
 
-// // Lägg till produkt
-// router.post('/api/admin/addproduct', (req, res) => {
-//     // const newProduct = {
-//     //     id:
-//     //     title:
-//     //     desc:
-//     //     price: 
-//     // }
+// Add product
+router.post('/api/admin/add', checkProperty('userID'), checkProperty('newItem'), checkProperty('newItem.id'), checkProperty('newItem.title'), checkProperty('newItem.desc'), checkProperty('newItem.price'), isAdmin, async (req, res) => {
+    const date = new Date().toLocaleString();
+    const newProduct = {
+        ...req.body.newItem,
+        createdAt: date
+    }
+    
+    let responseObj = {
+        success: true,
+        message: 'Product added.'
+    }
 
-// });
+    const products = await getMenu();
 
-// ////////////////////
-// // app.post('/api/addcat', (req, res) => {
-// //     // förvänta oss data från användaren i form av ett objekt
-// //     // req.body = {
-// //     //     name: "Smilla",
-// //     //     age: 3,
-// //     //     img: "",
-// //     //     neutered: false
-// //     // }
-// //     const cat = req.body;
-// //     catsDB.insert(cat);
-// //     res.send('all good');
-// // });
+    for (const product of products) {    
+        if (product.title === newProduct.title) {
+            responseObj.success = false;
+            responseObj.message = 'Product name already exists.';
+            break;
+        } else if (product.id === newProduct.id) {
+            responseObj.success = false;
+            responseObj.message = 'Product id already exists.';
+            break;
+        }
+    }
 
-// // router.post('/api/beans/order', checkProperty('userID'), checkProperty('order'), orderValidation, async (req, res) => {
-// //     const userID = req.body.userID;
-// //     const date = new Date().toLocaleString();
-// //     const newOrder = {
-// //         orderNumber: uuidv4(),
-// //         timeOfOrder: date,
-// //         delivery: plannedDelivery(),
-// //         order: req.body.order,
-// //         totalPrice: res.locals.totalPrice
-// //     }
+    if (responseObj.success) {
+        addProduct(newProduct);
+    }
+    return res.json(responseObj);
+});
 
-// //     const [ user ] = await findUsers('_id', userID);
+////////////////////////////
+// Modify product
+router.post('/api/admin/modify', checkProperty('id'), checkProperty('title'), checkProperty('desc'), checkProperty('price'), productValidation, (req, res) => {
+    const date = new Date().toLocaleString();
 
-// //     if (user) {
-// //         if (req.body.order.length > 0) {
-// //             updateUserOrders(userID, newOrder);
-// //             return res.json(newOrder);
-// //         } else {
-// //             return res.status(400).json({ message: 'Cannot place an empty order.'});
-// //         }
-// //     } else {
-// //         return res.status(404).json({ message: 'User not found.'});
-// //     }
+    // request:
+    // {
+    //     "userID": "34T10vzNa9SYOFW9",
+    //     "product": [
+    //              {
+    //             "id": "cookie-vkzh17ct2r",
+    //             "whatToModify": "title",
+    //             "changeTo": "New description",
+    //               }
+    //       ]
+    // }
 
-// // });
+    const modifiedProduct = {
+        ...req.body.product,
+        modifiedAt: date
+    }
+    
+    let responseObj = {
+        success: true,
+        message: 'Product modified.'
+    }
 
-// // router.post('/api/user/signup', checkProperty('username'), checkProperty('password'), async (req, res) => {
-// //     const newUser = {
-// //         username: req.body.username,
-// //         password: req.body.password,
-// //         orders: []
-// //     }
-// //     let responseObj = {
-// //         success: true,
-// //         message: 'Signup ok.'
-// //     }
+});
+//////////////////////
 
-// //     const users = await findUsers();
+// Remove product
+router.delete('/api/admin/remove', checkProperty('userID'), checkProperty('product'), isAdmin, async (req, res) => {
+    const productID = req.body.product[0].id;
+    const result = await removeProduct(productID);
 
-// //     users.forEach(user => {
-// //         if (user.username === newUser.username) {
-// //             responseObj.success = false;
-// //             responseObj.message = 'User already exists.'
-// //         }
-// //     });
+    if (result.success) {
+        res.json(result)
+    } else {
+        res.status(400).json(result)
+    }
+})
 
-// //     if (responseObj.success) {
-// //         createUser(newUser);
-// //     }
+// Add campaign
+router.post('/api/admin/newcampaign', checkProperty('userID'), checkProperty('products'), checkProperty('newPrice'), productValidation, isAdmin, async (req, res) => {
+    const date = new Date().toLocaleString();
+    const newCampaign = {
+        products: req.body.products,
+        newPrice: req.body.newPrice,
+        originalPrice: res.locals.originalPrice,
+        createdAt: date
+    }
+    
+    let responseObj = {
+        success: true,
+        message: 'Campaign created.'
+    }
 
-// //     return res.json(responseObj);
-// // });
-// ////////////////////
+        if (req.body.products.length > 0) {
+            addCampaign(newCampaign);
+            return res.json(responseObj);
+        } else {
+            return res.status(400).json({ message: 'Campaign must consist of at least one product.' });
+        }
 
+});
 
-// // Ändra produkt
-// router.post('/api/admin/updateproduct', (req, res) => {
+// Get campaigns
+router.get('/api/admin/campaigns', async (req, res) => {
+    try {
+        const camapigns = await getCampaigns();
+        return res.json(camapigns);
+    } catch (error) {
+        return res.status(500).json({ message: 'Server error.' })
+    }
+});
 
-// });
-
-// ////////////////////
-// // app.put('/api/updatecat', (req, res) => {
-// //     // const req,body = {
-// //     //     id: id,
-// //     //     whatToUpdate: name,
-// //     //     updateto: 'Arnold'
-// //     // }
-// //     const { id, whatToUpdate, updateTo } = req.body;
-// //     if (whatToUpdate == 'name') {
-// //         catsDB.update({ _id: id }, { $set: { name: updateTo } });
-// //     } else if (whatToUpdate == 'age') {
-// //         catsDB.update({ _id: id }, { $set: { age: updateTo } });
-// //     } else if (whatToUpdate == 'img') {
-// //         catsDB.update({ _id: id }, { $set: { img: updateTo } });
-// //     }
-// //     res.send('all good')
-// // });
-// ////////////////////
-
-// // Radera produkt
-// router.delete('/api/admin/removeproduct', (req, res) => {
-
-// });
-
-
-// ////////////////////
-// // app.delete('/api/deletecat', (req, res) => {
-// //     // vi förväntar oss ett id från användaren
-// //     const catId = req.body.id;
-// //     catsDB.remove({ _id: catId }, function (err, removed) {
-// //         if (err) {
-// //             console.log(err, 'lite fel blev det här');
-// //         } else {
-// //             console.log(removed);
-// //         }
-// //     });
-// //     res.send('cat gone')
-// // });
-// ////////////////////
-
-
-// // Lägg till kampanj
-// router.add('/api/admin/addcampaign', (req, res) => {
-
-// });
-
-// module.exports = router;
+module.exports = router;

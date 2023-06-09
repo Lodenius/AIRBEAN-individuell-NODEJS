@@ -1,13 +1,24 @@
 const express = require('express');
-const { findUsers, createUser } = require('../users/users.js');
+const { findUsers, createUser, getUsers } = require('../users/users.js');
 const { checkProperty } = require('../utils.js');
 const router = express.Router();
 
-// Skapa konto
+// Get users
+router.get('/api/user/users', async (req, res) => {
+    try {
+        const user = await getUsers();
+        return res.json(user);
+    } catch (error) {
+        return res.status(500).json({ message: 'Server error.' })
+    }
+});
+
+// Create account
 router.post('/api/user/signup', checkProperty('username'), checkProperty('password'), async (req, res) => {
     const newUser = {
         username: req.body.username,
         password: req.body.password,
+        role: req.body.role || "customer",
         orders: []
     }
     let responseObj = {
@@ -21,7 +32,7 @@ router.post('/api/user/signup', checkProperty('username'), checkProperty('passwo
         if (user.username === newUser.username) {
             responseObj.success = false;
             responseObj.message = 'User already exists.'
-        }
+        } 
     });
 
     if (responseObj.success) {
@@ -31,7 +42,7 @@ router.post('/api/user/signup', checkProperty('username'), checkProperty('passwo
     return res.json(responseObj);
 });
 
-// Logga in
+// Log in
 router.post('/api/user/login', checkProperty('username'), checkProperty('password'), async (req, res) => {
     const currentUser = req.body;
     let responseObj = {
@@ -53,7 +64,7 @@ router.post('/api/user/login', checkProperty('username'), checkProperty('passwor
     return res.json(responseObj);
 });
 
-// Hämta orderhistorik
+// Get order history 
 router.get('/api/user/history', checkProperty('userID'), async (req, res) => {
     const userID = req.body.userID;
     const [ user ] = await findUsers('_id', userID);
@@ -70,6 +81,5 @@ router.get('/api/user/history', checkProperty('userID'), async (req, res) => {
     }
 
 });
-
 
 module.exports = router;

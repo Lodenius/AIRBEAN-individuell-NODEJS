@@ -3,7 +3,13 @@
         {
             "username": "username",
             "password": "password123",
+            "role": "customer",
             "orders": []
+        },
+        {
+            "username": "admin",
+            "password": "admin123",
+            "role": "admin"
         }
     ]
 }

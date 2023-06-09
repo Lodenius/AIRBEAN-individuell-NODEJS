@@ -1,0 +1,12 @@
+{
+    "items":[
+      {
+        "products":[
+          {"id": "coffee-1235"},
+          {"id": "cake-1235"}
+        ],
+        "newPrice":39,
+        "originalPrice":59
+      }
+    ]
+  }

@@ -1,31 +1,36 @@
-const nedb = require('nedb-promise');
-const adminDB = new nedb({ filename: 'admin.db', autoload: true });
-const { createDB } = require('../createDB.js');
+// const nedb = require('nedb-promise');
+// const usersDB = new nedb({ filename: 'users.db', autoload: true });
+// const { createDB } = require('../createDB.js');
 
-createDB('/admin/admin.json', adminDB);
+// // createDB('/admin/admin.json', adminDB);
 
-
-// async function addProduct() {
-
+// async function getAdmins() {
+//     const admins = await usersDB.find({ role: 'admin'});
+//     return admins;
 // }
 
-// async function updateProduct() {
+// // async function addProduct() {
+
+// // }
+
+// // async function updateProduct() {
     
-// }
+// // }
 
-// async function removeProduct() {
+// // async function removeProduct() {
     
-// }
+// // }
 
 
 
-// async function addCampaign() {
+// // async function addCampaign() {
     
-// }
+// // }
 
 // module.exports = {
-//     addProduct,
-//     updateProduct,
-//     removeProduct,
-//     addCampaign
+//     getAdmins,
+//     // addProduct,
+//     // updateProduct,
+//     // removeProduct,
+//     // addCampaign
 // }
