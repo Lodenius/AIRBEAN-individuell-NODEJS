@@ -16,12 +16,10 @@ produkter.
   - Vilka produkter som ingår (ex. bryggkaffe och Gustav Adolfsbakelse, ska valideras att dessa produkter finns)
   - Kampanjpris för denna kombination (ex. 40 kr totalt)
  
-**För Godkänt:**
-* Uppnår alla krav på funktionalitet.
-
 **För Väl Godkänt:**
 * Använder sig av JSON web token för att returnera en token som innehåller användarens roll och som används för att sedan kontrollera access till routes enligt ovan.
 * Använder sig av Bcrypt.js för att kryptera lösenord vid skapandet av konto. Här är det fördelaktigt att lägga till funktionalitet för att skapa konto.
+
 
 # Methods
 
@@ -45,7 +43,7 @@ Exempel på request body för att lägga till admin:
 }`
 
 ### Logga in
-` GET /api/user/login `
+` POST /api/user/login `
 
 Exempel på request body:
 `{
@@ -62,14 +60,12 @@ Exempel på request body:
 Exempel på request body:
 `{
 	"userID": "34T10vzNa9SYOFW9",
-	"product": [
-	         {
-		    "id": "test-vkzh17ct2r",
-		    "title": "Test",
+	"newItem": {
+		    "id": "new-vkzh17ct2r",
+		    "title": "New bun",
 		    "desc": "En fastlagsbulle i sin rätta form.",
 		    "price": 50
 	          }
-	  ]
 }`
 
 ### Ändra produkt
@@ -94,9 +90,9 @@ Exempel på request body:
 
 Exempel på request body:
 `{
-	"userID": "34T10vzNa9SYOFW9",
+	"userID": "8iaatDHwl8",
 	"product": [
-            { "id": "coffee-220dodpzmg" } 
+	         { "id": "pastry-db3gfsuqpr" }
 	  ]
 }`
 
@@ -107,27 +103,17 @@ Exempel på request body:
 
 Exempel på request body:
 `{
-        "userID": "123456789abcd"
+	"userID": "8iaatDHrhTJEXwl8",
 	"products": [
-	    { "id": "coffee-m2h37k2mnh" }, 
-            { "id": "coffee-220dodpzmg" } 
-	 ],
-	"price": 48
+		{ "id": "coffee-m2h37k2mnh" }, 
+		{ "id": "coffee-220dodpzmg" } 
+	],
+	"newPrice": 48
 }`
 
 ### Se pågående kampanj/-er
 
 ` GET /api/admin/campaigns `
-
-Exempel på request body:
-`{
-        "userID": "123456789abcd"
-	"products": [
-	    { "id": "coffee-m2h37k2mnh" }, 
-            { "id": "coffee-220dodpzmg" } 
-	 ],
-	"price": 48
-}`
 
 
 ## För kunder
@@ -139,12 +125,8 @@ Exempel på request body:
 `{
 	"userID": "34T10vzNa9SYOFW9",
 	"order": [
-		{
-			"id": "coffee-m2h37k2mnh"
-		},
-		{
-			"id": "coffee-220dodpzmg"
-		}
+		{ "id": "coffee-m2h37k2mnh" },
+		{ "id": "coffee-220dodpzmg" }
 	]
 }`
 
