@@ -23,6 +23,8 @@ produkter.
 
 # Methods
 
+### PORT 5555
+
 ### Hämta menyn
 ` GET /api/beans `
 
@@ -74,14 +76,13 @@ Exempel på request body:
 
 Exempel på request body:
 `{
-	"userID": "34T10vzNa9SYOFW9",
-	"product": [
+	"userID": "Ze6HUEBBWU8TTQXH",
+	"product":
 	         {
-		    "id": "cookie-vkzh17ct2r",
+		    "id": "coffee-e8hz0lk7q5",
 		    "whatToModify": "title",
-		    "changeTo": "New description",
+		    "changeTo": "new title"
 	          }
-	  ]
 }`
 
 ### Ta bort produkt
