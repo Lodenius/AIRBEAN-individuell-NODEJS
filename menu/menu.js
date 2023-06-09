@@ -3,7 +3,7 @@ const menuDB = new nedb({ filename: 'menu.db', autoload: true });
 const campaignDB = new nedb({ filename: 'campaigns.db', autoload: true });
 const { createDB } = require('../createDB.js');
 
-createDB('/menu/menu.json', menuDB);
+// createDB('/menu/menu.json', menuDB);
 // createDB('/menu/campaigns.json', campaignDB);
 
 async function getMenu() {
@@ -25,12 +25,12 @@ function addProduct(newProduct) {
 }
 
 function modifyProduct(modifiedProduct) {
-    menuDB.insert(modifiedProduct);
+    const date = new Date().toLocaleString();
+    menuDB.update({ id: modifiedProduct.id }, { $set: { ...modifiedProduct, modifiedAt: date }});
 }
 
 async function removeProduct(productID) {
     const product = await findMenuItem(productID);
-
     if (product) {
         const filterObj = { id: productID };
         await menuDB.remove(filterObj);
@@ -50,8 +50,8 @@ async function addCampaign(newCampaign) {
     campaignDB.insert(newCampaign);
 }
 
-
 module.exports = {
+    menuDB,
     getMenu,
     getCampaigns,
     findMenuItem,

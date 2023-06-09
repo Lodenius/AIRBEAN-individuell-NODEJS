@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { getMenu, addCampaign, getCampaigns, removeProduct } = require('../menu/menu.js');
+const { getMenu, addCampaign, getCampaigns, removeProduct, menuDB } = require('../menu/menu.js');
 const { checkProperty, productValidation, isAdmin } = require('../utils.js');
 const { addProduct } = require('../menu/menu');
+const { modifyProduct } = require('../menu/menu.js');
 
 // Add product
 router.post('/api/admin/add', checkProperty('userID'), checkProperty('newItem'), checkProperty('newItem.id'), checkProperty('newItem.title'), checkProperty('newItem.desc'), checkProperty('newItem.price'), isAdmin, async (req, res) => {
@@ -37,26 +38,11 @@ router.post('/api/admin/add', checkProperty('userID'), checkProperty('newItem'),
     return res.json(responseObj);
 });
 
-////////////////////////////
 // Modify product
-router.post('/api/admin/modify', checkProperty('id'), checkProperty('title'), checkProperty('desc'), checkProperty('price'), productValidation, (req, res) => {
+router.post('/api/admin/modify', checkProperty('userID'), checkProperty('product'), checkProperty('product.id'), checkProperty('product.whatToModify'), checkProperty('product.changeTo'), isAdmin, async (req, res) => {
     const date = new Date().toLocaleString();
-
-    // request:
-    // {
-    //     "userID": "34T10vzNa9SYOFW9",
-    //     "product": [
-    //              {
-    //             "id": "cookie-vkzh17ct2r",
-    //             "whatToModify": "title",
-    //             "changeTo": "New description",
-    //               }
-    //       ]
-    // }
-
     const modifiedProduct = {
         ...req.body.product,
-        modifiedAt: date
     }
     
     let responseObj = {
@@ -64,8 +50,47 @@ router.post('/api/admin/modify', checkProperty('id'), checkProperty('title'), ch
         message: 'Product modified.'
     }
 
+    const products = await getMenu();
+    let productFound = false;
+
+    for (const product of products) {    
+        if (product.id === modifiedProduct.id) {
+            productFound = true;
+        
+            if (!modifiedProduct.whatToModify || !modifiedProduct.changeTo) {
+                responseObj.success = false;
+                responseObj.message = 'Invalid modification request.';
+            } else {
+                try {
+                    if (modifiedProduct.whatToModify == 'title') {
+                        menuDB.update({ id: product.id }, { $set: { title: modifiedProduct.changeTo, modifiedAt: date}});               
+                    } else if (modifiedProduct.whatToModify == 'desc') {
+                        menuDB.update({ id: product.id }, { $set: { desc: modifiedProduct.changeTo, modifiedAt: date}});               
+                    } else if (modifiedProduct.whatToModify == 'price') {
+                        menuDB.update({ id: product.id }, { $set: { price: modifiedProduct.changeTo, modifiedAt: date}});
+                    } else if (modifiedProduct.whatToModify == 'id') {
+                        responseObj.success = false;
+                        responseObj.message = 'Cannot change id';
+                    }
+                } catch (error) {
+                    console.error('Error during menuDB.update():', error);
+                }
+            } break;
+        }
+    }
+    if (!productFound) {
+        responseObj.success = false;
+        responseObj.message = 'Product does not exist.';
+    }
+
+    if (responseObj.success) {
+        modifyProduct(modifiedProduct);
+    }
+
+    return res.json(responseObj);
+
 });
-//////////////////////
+
 
 // Remove product
 router.delete('/api/admin/remove', checkProperty('userID'), checkProperty('product'), isAdmin, async (req, res) => {
